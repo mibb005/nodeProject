@@ -1,0 +1,134 @@
+﻿<% include header.html %>
+
+<style>
+.div
+{
+box-shadow: 10px 10px 5px #888888;
+}
+</style>
+<script src="/socket.io-client/socket.io.js"></script>
+	 <script>
+    $(function(){
+           var iosocket = io('http://localhost:3100');
+            iosocket.on('connect', function () {
+                $('#incomingChatMessages').append($('<li>Connected</li>'));
+  
+                iosocket.on('event', function(message) {
+                    $('#incomingChatMessages').append($('<li></li>').text(message.some));
+                });
+                iosocket.on('disconnect', function() {
+                    $('#incomingChatMessages').append('<li>Disconnected</li>');
+                });
+            });
+  
+            $('#outgoingChatMessage').keypress(function(event) {
+                if(event.which == 13) {
+                    event.preventDefault();
+                    iosocket.send($('#outgoingChatMessage').val(),$('#outgoingChatMessage').val());
+                    $('#incomingChatMessages').append($('<li></li>').text($('#outgoingChatMessage').val()));
+                    $('#outgoingChatMessage').val('');
+                }
+            });
+        });
+    </script>	
+	<script>
+		    $(function () {
+		        var url = 'https://openapi.youku.com/v2/searches/video/by_keyword.json?',
+					mode = '&keyword=' + encodeURI('net'),
+					key = '&client_id=eab6c5f589febec2';
+
+		        $.ajax({
+		            url: url + mode + key,
+		            dataType: "json",
+		            async: true,
+		            success: function (result) { 
+		                ajax.parseJSONP(result);
+		            },
+		            error: function (request, error) {
+		                alert('无法连接网络或者返回值错误!');
+		            }
+		        });
+		    });
+
+		    $(document).on('pagebeforeshow', '#headline', function () {
+		        $('#movie-data').empty();
+		        $.each(movieInfo.result, function (i, row) {
+		            if (row.id == movieInfo.id) {
+		                $('#movie-data').append('<li><a href='+row.link+'><img src="' + row.thumbnail + '"></a></li>');
+		                $('#movie-data').append('<li>名称: <a href=' + row.link + '>' + row.title + '</a></li>');
+		                $('#movie-data').append('<li>发布日期:' + row.published + '</li>');
+		                $('#movie-data').append('<li>时长:' + row.duration + '</li>');
+		                $('#movie-data').append('<li>查看次数:' + row.view_count + '</li>');
+		                $('#movie-data').listview('refresh');
+		            }
+		        });
+		    });
+
+		    $(document).on('vclick', '#movie-list li a', function () {
+		        movieInfo.id = $(this).attr('data-id');
+		        $.mobile.changePage("#headline", { transition: "slide", changeHash: false });
+		    });
+
+		    var movieInfo = {
+		        id: null,
+		        result: null
+		    }
+
+		    var ajax = {
+		        parseJSONP: function (result) {
+		            movieInfo.result = result.videos;
+		            $.each(result.videos, function (i, row) {
+		                console.log(JSON.stringify(row));
+		                $('#movie-data').append('<li><a href="" data-id="' + row.id + '"><img src="' + row.thumbnail + '"/><h3>' + row.title + '</h3><p>click:' + row.view_count + '</p></a></li>');
+		            });
+		           // $('#movie-list').listview('refresh');
+		        }
+		    }		
+		</script>
+<div class="container-fluid" style="margin-top:50px;">
+	<div class="main">
+			<% for(var i=0; i<Model.length; i++) {%>
+					<div class="ontainer-fluid div" style="background-color:#fff;margin-bottom:40px;padding:20px;">
+						<div class="post-inner-content">
+			<header class="entry-header page-header">
+
+				<h1><%= Model[i].name%></h1>
+
+								<div class="entry-meta">
+					<span class="posted-on"><i class="fa fa-calendar"></i> <a href="http://mibbpress.jd-app.com/?p=1" rel="bookmark"><time class="entry-date published" datetime="2014-08-22T05:20:54+00:00">2014年8月22日</time></a></span><span class="byline"> <i class="fa fa-user"></i> <span class="author vcard"><a class="url fn n" href="http://mibbpress.jd-app.com/?author=1">mibb005</a></span></span>				<span class="comments-link"><i class="fa fa-comment-o"></i><a href="http://mibbpress.jd-app.com/?p=1#comments" title="《世界，你好！》上的评论">2 Comments</a></span>
+				
+				
+				</div><!-- .entry-meta -->
+							</header><!-- .entry-header -->
+
+						<div class="entry-content">
+
+					<p>欢迎使用WordPress。这是系统自动生成的演示文章。编辑或者删除它，然后开始您的博客！</p>
+
+				<p><a class="btn btn-default btn-primary" href="http://mibbpress.jd-app.com/?p=1" title="世界，你好！">Read More</a></p>
+
+							</div><!-- .entry-content -->
+					</div>
+					</div>
+			<% } %>		
+<ul class="pagination">
+  <li class="disabled"><a href="#">&laquo;</a></li>
+  <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+  <li><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+  <li><a href="#">»</a></li>
+</ul>			
+	</div>
+	<div class="page">
+	</div>
+		<ul data-role="listview"  id="movie-data" data-theme="a">
+					
+				</ul>
+				Incoming Chat:&nbsp;<ul id="incomingChatMessages"></ul>
+<br />
+<input type="text" id="outgoingChatMessage">
+</div>
+
+<% include footer.html %>

@@ -1,0 +1,70 @@
+   		</div>
+		<div class="col-md-3 ol-sm-12" style="background-color:#fff;padding-bottom:100px;padding-top:50px;margin-top:50px;">
+			<div class="container-fluid">
+				<ul class="nav nav-pills nav-stacked" id="ur_lsit">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">Profile</a> </li>			 
+              <li><a href="#">Messages</a></li>
+            </ul>		
+			<aside id="recent-comments-2" class="widget widget_recent_comments">
+			<h3 class="widget-title">Home</h3>
+			<ul id="recentcomments">
+			<li class="recentcomments">mibb005<a href="http://mibbpress.jd-app.com/?p=13#comment-3">myFirstNode</a></li></ul></aside>
+					<ul class="nav nav-pills nav-stacked" id="ur_lsit">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Messages</a></li>
+            </ul>	
+					<ul class="nav nav-pills nav-stacked" id="ur_lsit">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Messages</a></li>
+            </ul>	
+					<ul class="nav nav-pills nav-stacked" id="ur_lsit">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Messages</a></li>
+            </ul>	
+					<ul class="nav nav-pills nav-stacked" id="ur_lsit">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Messages</a></li>
+            </ul>	
+			<hr></hr>
+<form method="get" class="form-search" action="http://mibbpress.jd-app.com/">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="input-group">
+        <input type="text" class="form-control search-query" value="" name="s" id="s" placeholder="Search...">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-default" name="submit" id="searchsubmit" value="Go" style=""><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+      </div>
+    </div>
+  </div>
+</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+	<hr/>
+	<footer class="site-footer" style="background-color: #1F1F1F;
+padding: 10px 0;
+border-top: 1px solid #3A3A3A;">
+		<div class="container">
+			<p style="margin-top: 10px;
+text-align: left;color:#fff;">&copy;Company 2014-09-05</p>
+		</div>
+	</footer>  
+   	<script>
+					$(function(){
+						$.get("json/1",function(data){
+							$.each(data,function(i,item){
+								$("#ur_lsit").append("<li><a href='#'>"+item.name+"</a><li>")
+							});							
+						});
+					})
+				</script>
+</body>
+</html>
